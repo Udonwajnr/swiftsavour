@@ -3,7 +3,8 @@ import { Clock } from "react-native-feather";
 import MealCard from "../components/MealCard";
 import Cart from "../components/Cart";
 import BackArrow from "../components/BackArrow";
-export default function DetailScreen(){
+
+export default function MenuScreen(){
     return(
         <SafeAreaView className="flex-1 bg-[#f7f7f7] relative">
             <ScrollView>

@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function RestaurantCard(){
     const navigation = useNavigation()
     return(
-        <TouchableOpacity onPress={()=>navigation.navigate("Details")}>
+        <TouchableOpacity onPress={()=>navigation.navigate("Menu")}>
             <View className="bg-white rounded-lg shadow-2xl mb-3">
                 <View className="  h-48 relative">
                     <View className="absolute bottom-0 left-4 z-10">

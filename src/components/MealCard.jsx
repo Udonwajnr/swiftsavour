@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native"
 export default function MealCard(){
     const navigation = useNavigation()
     return(
-        <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
             <View className="rounded-lg w-40 mb-3 ">
                 {/* Meal image */}
                 <View className="h-40 rounded-lg relative">

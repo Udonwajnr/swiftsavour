@@ -1,6 +1,7 @@
 import { View,Text, TouchableOpacity } from "react-native"
 import { ShoppingBag,ShoppingCart, } from "react-native-feather"
 import { useNavigation } from "@react-navigation/native"
+
 export default function Cart(){
     const navigation = useNavigation()
     return(
@@ -13,7 +14,7 @@ export default function Cart(){
                 <Text>Delivery order</Text>
             </View>
             <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
-                <Text className="font-bold text-xl text-black bg-[#afea0d] rounded-lg px-4 py-2">Checkout</Text>
+                <Text className="font-bold text-black bg-[#afea0d] rounded-lg px-4 py-2">Proceed to Cart</Text>
             </TouchableOpacity>
         </View>
     )
