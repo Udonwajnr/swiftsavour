@@ -15,5 +15,6 @@ export default defineType({
       title: 'Description',
       type: 'text',
     }),
+    
   ],
 })

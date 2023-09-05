@@ -5,12 +5,12 @@ import TotalProduct from "../components/TotalProduct";
 export default function(){
     return(
         <SafeAreaView className="relative flex-1">
-                <TotalProduct/>
-            <ScrollView >
+            <ScrollView className="">
                 <View className="mx-3 relative mt-5">
                     <CartCard/>   
                 </View>
             </ScrollView>
+            <TotalProduct/>
         </SafeAreaView>
     )
 }

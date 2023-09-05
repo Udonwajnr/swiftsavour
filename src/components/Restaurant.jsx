@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { View,Text,Image, Touchable, TouchableOpacity } from "react-native";
 import RestaurantCard from "./RestaurantCard";
+import axios from "axios";
+import { getRestaurant } from "../../sanity/api";
+import { AuthContext } from "../contextApi/context";
 
 export default function Restaurant({navigation}){
+    const {restaurant}= useContext(AuthContext)
+    
     return(
         <View className="px-4 mt-4 ">
             {/* restaurant header */}
@@ -18,10 +23,13 @@ export default function Restaurant({navigation}){
             </View>
             {/*Restaurant card  */}
             <View className="">
-                <RestaurantCard navigation={navigation}/>
-                <RestaurantCard/>
-                <RestaurantCard/>
-                <RestaurantCard/>
+                {
+                    restaurant.map((restaurant,index)=>{
+                        return(
+                            <RestaurantCard key={index} navigation={navigation} restaurant={restaurant}/>
+                        )
+                    })
+                }
             </View>
         </View>
     )
