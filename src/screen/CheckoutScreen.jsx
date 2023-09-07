@@ -1,10 +1,12 @@
-import { Text, TextInput, View, ScrollView,SafeAreaView,Button, Alert } from "react-native"
+import { Text, TextInput, View, ScrollView,SafeAreaView,Button, Alert, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import client from "../../sanity/sanity"
 import { useRoute } from "@react-navigation/native"
 import { AuthContext } from "../contextApi/context"
 import { useContext } from "react"
+import PayWithFlutterwave from "flutterwave-react-native"
+
 
 export default function CheckoutScreen(){
     const navigation = useNavigation()
@@ -12,13 +14,42 @@ export default function CheckoutScreen(){
     const [location,setLocation] = useState('')
     const [email,setEmail] = useState('')
     const [phoneNumber,setPhoneNumber] = useState('')
-    const {cartItems} = useContext(AuthContext)
+    const {cartItems,getCartTotal,deliveryFee} = useContext(AuthContext)
+    const [payment,setPayment] = useState({})
+    const [value,setValue] =useState(false)
+    const [active,setActive] = useState(1)
+    const total = getCartTotal() + deliveryFee
+   
 
-    const postUser =async()=>{
-        if(fullName == ''||location== ''||email== ''||phoneNumber== ''){
-            Alert.alert("Please fill the inputs")
-        }
-        else{
+   let RedirectParams= {
+    status: 'successful' || 'cancelled',
+    transaction_id: '',
+    tx_ref: '',
+  }
+  const generateRef = (length) => {
+    var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
+    var b = [];  
+    for (var i=0; i<length; i++) {
+        var j = (Math.random() * (a.length-1)).toFixed(0);
+        b[i] = a[j];
+    }
+    return b.join("");
+}
+
+
+const formHandler =()=>{
+    if(fullName == ''|| location == '' || email== '' || phoneNumber== ''){
+        setActive(1)
+        Alert.alert("fill form input")
+    }
+    else{
+      setActive(active+1)
+    } 
+}
+
+const handleOnRedirect = async (RedirectParams) => {
+        // console.log(RedirectParams)
+        setPayment(RedirectParams)    
             const mutations = [{
                 create:{
                   _type: 'order',
@@ -41,48 +72,68 @@ export default function CheckoutScreen(){
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.error(error))
-        }
-
-
+        
     }
 
-    console.log(fullName)
-
+     console.log(payment)
 
     return(
         <SafeAreaView className="flex-1">
             <ScrollView>
-                <View className="flex-col mx-3 mt-3">
-                    <View>
-                        <Text className="text-black text-lg">FullName</Text>
-                        <TextInput placeholder="John Doe" value={fullName}  onChangeText={(e)=>setFullName(e)} placeholderTextColor={"#a3a3a3"} inputMode="text" autoComplete="name" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
-                    </View>
+                {
+                    active ===1?
+                    <View className="flex-col mx-3 mt-3">
+                        <View>
+                            <Text className="text-black text-lg">FullName</Text>
+                            <TextInput placeholder="John Doe" value={fullName}  onChangeText={(e)=>setFullName(e)} placeholderTextColor={"#a3a3a3"} inputMode="text" autoComplete="name" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
+                        </View>
 
-                    <View>
-                        <Text className="text-black text-lg">Email</Text>
-                        <TextInput autoCapitalize="none" value={email} onChangeText={(e)=>setEmail(e)}  placeholder="johndoe@gmail.com"  inputMode="email" placeholderTextColor={"#a3a3a3"} autoComplete="email" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}} />
-                    </View>
+                        <View>
+                            <Text className="text-black text-lg">Email</Text>
+                            <TextInput autoCapitalize="none" value={email} onChangeText={(e)=>setEmail(e)}  placeholder="johndoe@gmail.com"  inputMode="email" placeholderTextColor={"#a3a3a3"} autoComplete="email" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}} />
+                        </View>
 
-                    <View>
-                        <Text className="text-black text-lg">Address</Text>
-                        <Text className="text-[10px] italic text-black">Location Within Uyo</Text>
-                        <TextInput autoCapitalize="none" value={location} onChangeText={(e)=>setLocation(e)}  placeholder="52 Osong Ama Estate Road" inputMode="text"   placeholderTextColor={"#a3a3a3"} autoComplete="address-line1" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
-                    </View>
-                    <View>
-                        <Text className="text-black text-lg">Phone Number</Text>
-                        <TextInput autoCapitalize="none" value={phoneNumber} onChangeText={(e)=>setPhoneNumber(e)}  placeholder="52 Osong Ama Estate Road" inputMode="text"  placeholderTextColor={"#a3a3a3"} autoComplete="address-line1" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
-                    </View>
-                    {/* <View>
-                        <Text className="text-black text-lg">Amount</Text>
-                        <TextInput autoCapitalize="none"  placeholder="1000" inputMode="text"  onChangeText={''} placeholderTextColor={"#a3a3a3"} style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
-                    </View> */}
+                        <View>
+                            <Text className="text-black text-lg">Address</Text>
+                            <Text className="text-[10px] italic text-black">Location Within Uyo</Text>
+                            <TextInput autoCapitalize="none" value={location} onChangeText={(e)=>setLocation(e)}  placeholder="52 Osong Ama Estate Road" inputMode="text"   placeholderTextColor={"#a3a3a3"} autoComplete="address-line1" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
+                        </View>
+                        <View>
+                            <Text className="text-black text-lg">Phone Number</Text>
+                            <TextInput autoCapitalize="none" value={phoneNumber} onChangeText={(e)=>setPhoneNumber(e)}  placeholder="0800000000" inputMode="text"  placeholderTextColor={"#a3a3a3"} autoComplete="address-line1" style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
+                        </View>
+                        {/* <View>
+                            <Text className="text-black text-lg">Amount</Text>
+                            <TextInput autoCapitalize="none"  placeholder="1000" inputMode="text"  onChangeText={''} placeholderTextColor={"#a3a3a3"} style={{height:40,borderWidth:1,marginVertical:6,color:'black',paddingHorizontal:10}}/>
+                        </View> */}
 
-                    {/* <Button title="Pay Now" onPress={()=>navigation.navigate('Map')}/> */}
-                    <Button title="Pay Now" onPress={()=>postUser()}/>
+                        {/* <Button title="Pay Now" onPress={()=>secondFunction()}/> */}
+                    </View>
+                    :
+                    <PayWithFlutterwave
+                        onRedirect={handleOnRedirect} 
+                        options={{
+                            tx_ref: generateRef(11),
+                            authorization:'FLWPUBK_TEST-39c40e452700c976b52c1140dd888f54-X',
+                            customer: {
+                                email: 'umohu67@gmail.com'
+                            },
+                            amount: total,
+                            currency: 'NGN',
+                            payment_options: 'card'
+                        }}
+                    />
+
+                }
+                <View className="flex-row mx-3 justify-between">
+                    <TouchableOpacity title="previous" className="bg-black px-4 py-2 text-white" onPress={()=>setActive(1)}>
+                        <Text>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity className="bg-black px-4 py-2 text-white" title="previous" onPress={()=>formHandler()}>
+                        <Text>Next</Text>
+                    </TouchableOpacity>
                 </View>
-                {/* <Button title="Get Current location" /> */}
-                
-                
+
             </ScrollView>
         </SafeAreaView>
         )

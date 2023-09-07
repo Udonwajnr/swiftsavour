@@ -27,7 +27,7 @@ export default function TotalProduct(){
 
                 <View className="flex-row justify-between">
                         <Text className="font-bold text-xl">Total</Text>
-                        <Text  className="font-bold text-xl">&#8358; {getCartTotal() +deliveryFee}</Text>
+                        <Text  className="font-bold text-xl">&#8358; {getCartTotal() + deliveryFee}</Text>
                 </View>
                 <TouchableOpacity className="items-center bg-white p-3 rounded-xl mt-4" onPress={()=>navigation.navigate("Checkout")}>
                         <Text className="text-black font-bold">Proceed To Checkout</Text>
