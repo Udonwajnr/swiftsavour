@@ -9,14 +9,12 @@ import PayWithFlutterwave from "flutterwave-react-native"
 
 
 export default function CheckoutScreen(){
-    const navigation = useNavigation()
     const [fullName,setFullName] = useState('')
     const [location,setLocation] = useState('')
     const [email,setEmail] = useState('')
     const [phoneNumber,setPhoneNumber] = useState('')
     const {cartItems,getCartTotal,deliveryFee} = useContext(AuthContext)
     const [payment,setPayment] = useState({})
-    const [value,setValue] =useState(false)
     const [active,setActive] = useState(1)
     const total = getCartTotal() + deliveryFee
    
@@ -50,32 +48,59 @@ const formHandler =()=>{
 const handleOnRedirect = async (RedirectParams) => {
         // console.log(RedirectParams)
         setPayment(RedirectParams)    
-            const mutations = [{
-                create:{
-                  _type: 'order',
-                  fullName:fullName,
-                  location:location,
-                  phone:phoneNumber,
-                  email:email,
-                  dishes:cartItems,
-                  status:true
-                }
-            }]
-            await  fetch(`https://${"i0yfg9os"}.api.sanity.io/v2021-06-07/data/mutate/${"production"}`, {
-              method: 'post',
-              headers: {
-                  'Content-type': 'application/json',
-                  Authorization: `Bearer ${"skjmUNrgRTebayY73CTllJTQeMxp9u7UEmbeMmwxPv3xdBR1bme9egeGXjOCXSOQa9xtiGr3XSCFKDa3k3aloUJvGVkgX1yJpYUdY2pY4Nqj5KwtHaImvOgtPfA9XSOAKWOY8ZMxc2TyYX2DXpR1uUvxvuGkaJvUnWYUM3phshWVbkQz59Lw"}`
-              },
-              body: JSON.stringify({mutations})
-          })
-        .then(response => response.json())
-        .then(result => console.log(result))
-        .catch(error => console.error(error))
+        //     const mutations = [{
+        //         create:{
+        //           _type: 'order',
+        //           fullName:fullName,
+        //           location:location,
+        //           phone:phoneNumber,
+        //           email:email,
+        //           dishes:cartItems,
+        //           status:true
+        //         }
+        //     }]
+        //     await  fetch(`https://${"i0yfg9os"}.api.sanity.io/v2021-06-07/data/mutate/${"production"}`, {
+        //       method: 'post',
+        //       headers: {
+        //           'Content-type': 'application/json',
+        //           Authorization: `Bearer ${"skjmUNrgRTebayY73CTllJTQeMxp9u7UEmbeMmwxPv3xdBR1bme9egeGXjOCXSOQa9xtiGr3XSCFKDa3k3aloUJvGVkgX1yJpYUdY2pY4Nqj5KwtHaImvOgtPfA9XSOAKWOY8ZMxc2TyYX2DXpR1uUvxvuGkaJvUnWYUM3phshWVbkQz59Lw"}`
+        //       },
+        //       body: JSON.stringify({mutations})
+        //   })
+        // .then(response => response.json())
+        // .then(result => console.log(result))
+        // .catch(error => console.error(error))
         
     }
 
-     console.log(payment)
+    const test =async()=>{
+        const mutations = [{
+            create:{
+              _type: 'order',
+              fullName:fullName,
+              location:location,
+              phone:phoneNumber,
+              email:email,
+              dishes:cartItems,
+              status:true
+            }
+        }]
+        await  fetch(`https://${"i0yfg9os"}.api.sanity.io/v2021-06-07/data/mutate/${"production"}`, {
+          method: 'post',
+          headers: {
+              'Content-type': 'application/json',
+              Authorization: `Bearer ${"skjmUNrgRTebayY73CTllJTQeMxp9u7UEmbeMmwxPv3xdBR1bme9egeGXjOCXSOQa9xtiGr3XSCFKDa3k3aloUJvGVkgX1yJpYUdY2pY4Nqj5KwtHaImvOgtPfA9XSOAKWOY8ZMxc2TyYX2DXpR1uUvxvuGkaJvUnWYUM3phshWVbkQz59Lw"}`
+          },
+          body: JSON.stringify({mutations})
+      })
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.error(error))
+    }
+
+    if(payment.status === "successful"){
+        setTimeout(test,400)
+    }
 
     return(
         <SafeAreaView className="flex-1">
@@ -116,7 +141,7 @@ const handleOnRedirect = async (RedirectParams) => {
                             tx_ref: generateRef(11),
                             authorization:'FLWPUBK_TEST-39c40e452700c976b52c1140dd888f54-X',
                             customer: {
-                                email: 'umohu67@gmail.com'
+                                email: email
                             },
                             amount: total,
                             currency: 'NGN',

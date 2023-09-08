@@ -54,14 +54,14 @@ export default function Payments({data}){
     return(
         <SafeAreaView>
             <ScrollView>
-                
+
             <PayWithFlutterwave
                             onRedirect={handleOnRedirect} 
                             options={{
                                 tx_ref: generateRef(11),
                                 authorization:'FLWPUBK_TEST-39c40e452700c976b52c1140dd888f54-X',
                                 customer: {
-                                    email: 'umohu67@gmail.com'
+                                    email: email
                                 },
                                 amount: total,
                                 currency: 'NGN',
