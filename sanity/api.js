@@ -16,7 +16,9 @@ export const getRestaurant =()=>{
           rating,
           Delivery
           ,dishes[]->{_id,name,image,description,price,
-            type->{title},restaurant->{name}}
+            type->{title},restaurant->{name,address,
+              longitude,
+              latitude}}
       }
     `
  )   

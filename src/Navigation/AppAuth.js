@@ -8,12 +8,28 @@ import BackArrow from '../components/BackArrow'
 import MealDetailScreen from '../screen/MealDetailScreen'
 import CheckoutScreen from '../screen/CheckoutScreen'
 import MapScreen from '../screen/MapScreen'
-const Stack = createNativeStackNavigator()
+import SuccessfulScreen from '../screen/SucessfullScreen'
+import RegisterScreen from '../screen/RegisterScreen'
+import LoginScreen from '../screen/LoginScreen'
 
+const Stack = createNativeStackNavigator()
 const AppAuth = () => {
   return (
     <Stack.Navigator>
-      
+      <Stack.Screen name='Register'
+         component={RegisterScreen}
+         options={{
+          headerShown:false
+         }}
+         />
+
+      <Stack.Screen name='Login'
+         component={LoginScreen}
+         options={{
+          headerShown:false
+         }}
+         />
+
         <Stack.Screen name='Home'
          component={HomeScreen}
          options={{
@@ -21,27 +37,25 @@ const AppAuth = () => {
          }}
          />
 
-    <Stack.Screen
-       name='Menu'
-       component={MenuScreen}
-      
-       options={{
-         headerShown:false,
-        //  headerLeft:()=><BackArrow/>,
-        //  headerTitle:''
-        }}
-      />
+      <Stack.Screen
+        name='Menu'
+        component={MenuScreen}
+        
+        options={{
+          headerShown:false,
+          }}
+        />
 
-  <Stack.Screen
-       name='Detail'
-       component={MealDetailScreen}
-       options={{
-         headerShown:false,
-        //  headerTitleAlign:'center',
-        //  headerLeft:()=><BackArrow/>,
-        //  headerTitle:''
-        }}
-      />
+
+
+    <Stack.Screen
+        name='Detail'
+        component={MealDetailScreen}
+        options={{
+          headerShown:false,
+          }}
+        />
+
 
 
     <Stack.Screen
@@ -50,33 +64,26 @@ const AppAuth = () => {
        options={{
          headerShown:true,
          headerTitleAlign:'center',
-        //  headerLeft:()=><BackArrow/>,
-        //  headerTitle:''
         }}
       />
 
-  <Stack.Screen
-       name='Checkout'
-       component={CheckoutScreen}
-       options={{
-         headerShown:true,
-         headerTitleAlign:'center',
-        //  headerLeft:()=><BackArrow/>,
-        //  headerTitle:''
-        }}
-      />
+    <Stack.Screen
+        name='Checkout'
+        component={CheckoutScreen}
+        options={{
+          headerShown:false,
+          }}
+        />
 
-<Stack.Screen
-       name='Map'
-       component={MapScreen}
-       options={{
-         headerShown:true,
-         headerTitleAlign:'center',
-        //  headerLeft:()=><BackArrow/>,
-        //  headerTitle:''
-        }}
-      />
-
+    <Stack.Screen
+          name='Map'
+          component={MapScreen}
+          options={{
+            headerShown:true,
+            headerTitleAlign:'center',
+            }}
+          />
+          
     </Stack.Navigator>
   )
 }

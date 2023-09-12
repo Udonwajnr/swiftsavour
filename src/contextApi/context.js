@@ -9,6 +9,7 @@ export const AuthProvider =({children})=>{
     const [cartItems,setCartItems] = useState([])
     const [total,setTotal] = useState(0)
     const [cartItemsTotal,setCartItemsTotal] = useState(0)
+    const [paymentBoolean,setPaymentBoolean] = useState(false)
     const deliveryFee = 1000
     const cartTotal=0
 
@@ -68,7 +69,7 @@ export const AuthProvider =({children})=>{
 
 
     return(
-        <AuthContext.Provider value={{restaurant,cartItems,addToCart,removeFromCart,clearCart,getCartTotal,total,deliveryFee,getCartItemsTotal,selectCartItemById}}>
+        <AuthContext.Provider value={{restaurant,cartItems,addToCart,removeFromCart,clearCart,getCartTotal,total,deliveryFee,getCartItemsTotal,selectCartItemById,setPaymentBoolean,paymentBoolean}}>
             {children}
         </AuthContext.Provider>
     )

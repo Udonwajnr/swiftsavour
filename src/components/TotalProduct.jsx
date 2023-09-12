@@ -32,6 +32,9 @@ export default function TotalProduct(){
                 <TouchableOpacity className="items-center bg-white p-3 rounded-xl mt-4" onPress={()=>navigation.navigate("Checkout")}>
                         <Text className="text-black font-bold">Proceed To Checkout</Text>
                 </TouchableOpacity>
+                <TouchableOpacity className="items-center bg-white p-3 rounded-xl mt-4" onPress={()=>navigation.navigate("Map")}>
+                        <Text className="text-black font-bold">Proceed To Checkout</Text>
+                </TouchableOpacity>
                 </View>
         </View>
     )

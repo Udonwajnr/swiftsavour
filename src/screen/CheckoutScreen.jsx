@@ -6,14 +6,15 @@ import { useRoute } from "@react-navigation/native"
 import { AuthContext } from "../contextApi/context"
 import { useContext } from "react"
 import PayWithFlutterwave from "flutterwave-react-native"
-
+import SuccessfulScreen from "./SucessfullScreen"
+import SuccessFullPage from "../components/Successful"
 
 export default function CheckoutScreen(){
     const [fullName,setFullName] = useState('')
     const [location,setLocation] = useState('')
     const [email,setEmail] = useState('')
     const [phoneNumber,setPhoneNumber] = useState('')
-    const {cartItems,getCartTotal,deliveryFee} = useContext(AuthContext)
+    const {cartItems,getCartTotal,deliveryFee,setPaymentBoolean,paymentBoolean} = useContext(AuthContext)
     const [payment,setPayment] = useState({})
     const [active,setActive] = useState(1)
     const total = getCartTotal() + deliveryFee
@@ -46,31 +47,7 @@ const formHandler =()=>{
 }
 
 const handleOnRedirect = async (RedirectParams) => {
-        // console.log(RedirectParams)
-        setPayment(RedirectParams)    
-        //     const mutations = [{
-        //         create:{
-        //           _type: 'order',
-        //           fullName:fullName,
-        //           location:location,
-        //           phone:phoneNumber,
-        //           email:email,
-        //           dishes:cartItems,
-        //           status:true
-        //         }
-        //     }]
-        //     await  fetch(`https://${"i0yfg9os"}.api.sanity.io/v2021-06-07/data/mutate/${"production"}`, {
-        //       method: 'post',
-        //       headers: {
-        //           'Content-type': 'application/json',
-        //           Authorization: `Bearer ${"skjmUNrgRTebayY73CTllJTQeMxp9u7UEmbeMmwxPv3xdBR1bme9egeGXjOCXSOQa9xtiGr3XSCFKDa3k3aloUJvGVkgX1yJpYUdY2pY4Nqj5KwtHaImvOgtPfA9XSOAKWOY8ZMxc2TyYX2DXpR1uUvxvuGkaJvUnWYUM3phshWVbkQz59Lw"}`
-        //       },
-        //       body: JSON.stringify({mutations})
-        //   })
-        // .then(response => response.json())
-        // .then(result => console.log(result))
-        // .catch(error => console.error(error))
-        
+        setPayment(RedirectParams)     
     }
 
     const test =async()=>{
@@ -96,15 +73,21 @@ const handleOnRedirect = async (RedirectParams) => {
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.error(error))
+    setPaymentBoolean(true)
+    setPayment('')
     }
 
     if(payment.status === "successful"){
-        setTimeout(test,400)
+        test()
+    }
+
+    if(paymentBoolean){
+        return <SuccessFullPage/>
     }
 
     return(
         <SafeAreaView className="flex-1">
-            <ScrollView>
+            <ScrollView className="relative flex-1">
                 {
                     active ===1?
                     <View className="flex-col mx-3 mt-3">
@@ -148,8 +131,8 @@ const handleOnRedirect = async (RedirectParams) => {
                             payment_options: 'card'
                         }}
                     />
-
                 }
+
                 <View className="flex-row mx-3 justify-between">
                     <TouchableOpacity title="previous" className="bg-black px-4 py-2 text-white" onPress={()=>setActive(1)}>
                         <Text>Back</Text>
