@@ -11,32 +11,19 @@ import MapScreen from '../screen/MapScreen'
 import SuccessfulScreen from '../screen/SucessfullScreen'
 import RegisterScreen from '../screen/RegisterScreen'
 import LoginScreen from '../screen/LoginScreen'
-
+import ForgotPasswordScreen from '../screen/ForgotPasswordScreen'
+import SetNewPasswordScreen from '../screen/SetNewPasswordScreen'
 const Stack = createNativeStackNavigator()
+
 const AppAuth = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Register'
-         component={RegisterScreen}
-         options={{
-          headerShown:false
-         }}
-         />
-
-      <Stack.Screen name='Login'
-         component={LoginScreen}
-         options={{
-          headerShown:false
-         }}
-         />
-
         <Stack.Screen name='Home'
          component={HomeScreen}
          options={{
           headerShown:false
          }}
          />
-
       <Stack.Screen
         name='Menu'
         component={MenuScreen}
@@ -45,9 +32,6 @@ const AppAuth = () => {
           headerShown:false,
           }}
         />
-
-
-
     <Stack.Screen
         name='Detail'
         component={MealDetailScreen}
@@ -55,9 +39,6 @@ const AppAuth = () => {
           headerShown:false,
           }}
         />
-
-
-
     <Stack.Screen
        name='Cart'
        component={CartScreen}
@@ -66,7 +47,6 @@ const AppAuth = () => {
          headerTitleAlign:'center',
         }}
       />
-
     <Stack.Screen
         name='Checkout'
         component={CheckoutScreen}
@@ -74,7 +54,6 @@ const AppAuth = () => {
           headerShown:false,
           }}
         />
-
     <Stack.Screen
           name='Map'
           component={MapScreen}
@@ -83,7 +62,6 @@ const AppAuth = () => {
             headerTitleAlign:'center',
             }}
           />
-          
     </Stack.Navigator>
   )
 }

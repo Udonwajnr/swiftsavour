@@ -1,12 +1,14 @@
 import React from 'react'
-import { Text,SafeAreaView,View, ScrollView } from 'react-native'
-import { Bell, Search } from 'react-native-feather'
+import { Text,SafeAreaView,View, ScrollView,TouchableOpacity } from 'react-native'
+import { Bell } from 'react-native-feather'
 import SearchInputBar from '../components/SearchInputBar'
 import ScrollMenu from '../components/ScrollMenu'
 import Restaurant from '../components/Restaurant'
-import SuccessFullPage from '../components/Successful'
+import { useContext } from 'react'
+import { AuthContext } from '../contextApi/context'
 
 const HomeScreen = ({navigation}) => {
+  const {logout} = useContext(AuthContext)
   return (
     <SafeAreaView className="flex-1 bg-[#f7f7f7]">
       <ScrollView className="relative">
@@ -19,7 +21,9 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 
                 <View className="">
-                  <Bell color={"white"}/>
+                  <TouchableOpacity onPress={()=>logout()}>
+                   <Bell color={"white"}/>
+                  </TouchableOpacity>
                 </View>        
             </View>
         </View>
